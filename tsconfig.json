@@ -23,7 +23,9 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@types": ["src/@types"],
-      "@types/*": ["src/@types/*"]
+      "@types/*": ["src/@types/*"],
+      "libs/prisma/src": ["libs/prisma/src"],
+      "libs/prisma/src/*": ["libs/prisma/src/*"]
     }
   }
 }
