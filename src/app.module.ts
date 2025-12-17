@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { HttpModule } from '@nestjs/axios';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from '../libs/prisma/src';
 import { ConfigModule } from '@nestjs/config';
 import { BearerStrategy } from './common/strategy';
 import { UsersModule } from './modules/users/users.module';
+import { DateCoursesModule } from './modules/date-courses/date-courses.module';
 
 @Module({
   imports: [
@@ -15,9 +15,10 @@ import { UsersModule } from './modules/users/users.module';
     PrismaModule.forRoot({ isGlobal: true }),
     AuthModule,
     UsersModule,
+    DateCoursesModule,
   ],
   controllers: [AppController],
-  providers: [AppService, BearerStrategy],
+  providers: [BearerStrategy],
   exports: [HttpModule],
 })
 export class AppModule {}
