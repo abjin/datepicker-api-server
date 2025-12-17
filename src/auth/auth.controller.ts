@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { GoogleLoginDto } from './dto/google-login.dto';
+import { GoogleLoginDto } from './dtos/google-login.dto';
 import { AuthService } from './auth.service';
 
 @ApiTags('auth')
