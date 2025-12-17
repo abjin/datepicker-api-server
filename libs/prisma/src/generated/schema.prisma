@@ -14,6 +14,36 @@ datasource db {
   provider = "postgresql"
 }
 
+model Account {
+  id     String      @id @unique
+  type   AccountType
+  userId String      @unique
+  user   User        @relation(fields: [userId], references: [id])
+}
+
 model User {
-  id Int @id @default(autoincrement())
+  id              String   @id @unique
+  createdAt       DateTime @default(now())
+  email           String?
+  name            String?
+  profileImageUrl String?
+  region          String?
+  interests       String[]
+  budget          Int?
+  account         Account?
+  token           Token?
+}
+
+model Token {
+  id        Int      @id @default(autoincrement())
+  userId    String   @unique
+  token     String   @unique
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+enum AccountType {
+  GOOGLE
+  KAKAO
+  NAVER
 }

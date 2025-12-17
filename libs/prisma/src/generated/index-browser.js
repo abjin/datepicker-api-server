@@ -120,8 +120,28 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.AccountScalarFieldEnum = {
+  id: 'id',
+  type: 'type',
+  userId: 'userId'
+};
+
 exports.Prisma.UserScalarFieldEnum = {
-  id: 'id'
+  id: 'id',
+  createdAt: 'createdAt',
+  email: 'email',
+  name: 'name',
+  profileImageUrl: 'profileImageUrl',
+  region: 'region',
+  interests: 'interests',
+  budget: 'budget'
+};
+
+exports.Prisma.TokenScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  token: 'token',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -129,9 +149,25 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.AccountType = exports.$Enums.AccountType = {
+  GOOGLE: 'GOOGLE',
+  KAKAO: 'KAKAO',
+  NAVER: 'NAVER'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  Account: 'Account',
+  User: 'User',
+  Token: 'Token'
 };
 
 /**

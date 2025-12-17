@@ -9,4 +9,12 @@ export class GoogleLoginDto {
   @IsNotEmpty()
   @IsString()
   idToken: string;
+
+  @ApiProperty({
+    description: 'Google 사용자 ID',
+    example: '1234567890',
+  })
+  @IsNotEmpty()
+  @IsString()
+  id: string;
 }
