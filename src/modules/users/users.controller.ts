@@ -1,13 +1,13 @@
 import { Controller, Get, Put, Body, UseGuards, Req } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { BearerGuard } from '../../common/guard';
 import express from 'express';
 
 @Controller('user')
 @UseGuards(BearerGuard)
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
 
   @Get('me')
   getUser(@Req() req: express.Request) {
@@ -19,6 +19,6 @@ export class UserController {
     @Req() req: express.Request,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.updateUser(req.user!.id, updateUserDto);
+    return this.usersService.updateUser(req.user!.id, updateUserDto);
   }
 }
