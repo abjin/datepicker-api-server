@@ -35,7 +35,6 @@ model User {
 }
 
 model Token {
-  id        Int      @id @default(autoincrement())
   userId    String   @unique
   token     String   @unique
   createdAt DateTime @default(now())
