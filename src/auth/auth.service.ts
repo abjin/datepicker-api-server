@@ -29,7 +29,7 @@ export class AuthService {
       where: { id: userId },
     });
 
-    const token = this.createToken(userId);
+    const token = await this.createToken(userId);
 
     return { token, user };
   }
