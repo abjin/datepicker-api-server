@@ -1,9 +1,9 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { GoogleTokenPayload } from '../@types';
-import { PrismaService } from '../../libs/prisma/src';
+import { GoogleTokenPayload } from '../../@types';
+import { PrismaService } from '../../../libs/prisma/src';
 import { randomBytes, randomUUID } from 'crypto';
-import { $Enums, User } from '../../libs/prisma/src/generated';
+import { $Enums, User } from '../../../libs/prisma/src/generated';
 
 @Injectable()
 export class AuthService {
