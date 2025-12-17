@@ -22,6 +22,7 @@ export class AuthController {
       googleLoginDto.id,
       googleLoginDto.idToken,
     );
+    console.log(result);
     return result;
   }
 }

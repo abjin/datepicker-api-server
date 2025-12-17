@@ -22,18 +22,8 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@types": [
-        "src/@types"
-      ],
-      "@types/*": [
-        "src/@types/*"
-      ],
-      "libs/prisma": [
-        "libs/prisma/src"
-      ],
-      "libs/prisma/*": [
-        "libs/prisma/src/*"
-      ]
+      "@types": ["src/@types"],
+      "@types/*": ["src/@types/*"]
     }
   }
 }
