@@ -1,10 +1,10 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { GoogleTokenPayload } from '@types';
-import { PrismaService } from '@app/prisma';
+import { GoogleTokenPayload } from '../@types';
+import { PrismaService } from '../../libs/prisma/src';
 import { randomBytes } from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
-import { $Enums, User } from '@app/prisma/generated';
+import { $Enums, User } from '../../libs/prisma/src/generated';
 
 @Injectable()
 export class AuthService {
