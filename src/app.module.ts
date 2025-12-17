@@ -3,9 +3,16 @@ import { HttpModule } from '@nestjs/axios';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { PrismaModule } from 'libs/prisma';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [{ ...HttpModule.register({}), global: true }, AuthModule],
+  imports: [
+    { ...HttpModule.register({}), global: true },
+    ConfigModule.forRoot({ isGlobal: true }),
+    PrismaModule.forRoot({ isGlobal: true }),
+    AuthModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
   exports: [HttpModule],
