@@ -13,7 +13,7 @@ import express from 'express';
 
 @ApiTags('사용자')
 @ApiBearerAuth()
-@Controller('user')
+@Controller('users')
 @UseGuards(BearerGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
