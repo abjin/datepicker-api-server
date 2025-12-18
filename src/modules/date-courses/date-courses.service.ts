@@ -63,7 +63,7 @@ export class DateCoursesService {
             ## 필수 JSON 구조:
             {
               "title": "코스 제목 (한국어)",
-              "course_description": "전체 코스에 대한 설명 (한국어)",
+              "courseDescription": "전체 코스에 대한 설명 (한국어)",
               "course": [
                 {
                   "place": "정확한 장소명 (한국어)",

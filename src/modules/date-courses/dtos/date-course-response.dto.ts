@@ -16,7 +16,7 @@ export class DateCourseResponseDto {
   title: string;
 
   @ApiProperty({ description: '코스 설명' })
-  course_description: string;
+  courseDescription: string;
 
   @ApiProperty({ description: '추천 장소 목록', type: [PlaceDto] })
   course: PlaceDto[];
