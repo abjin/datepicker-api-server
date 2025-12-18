@@ -21,7 +21,7 @@ export class DateCoursesService {
       오늘 데이트를 할 예정이야.
 
       - 지역: ${region}
-      - 예산: ${budget}
+      - 예산: ${budget} 만원
       - 관심사: ${interests}
       
       데이트를 위해 위의 조건에 맞는 가장 인기 많은 장소들을 찾고 있어.
