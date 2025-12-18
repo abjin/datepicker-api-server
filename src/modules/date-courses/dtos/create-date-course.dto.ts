@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsArray, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateDateCourseDto {
@@ -14,7 +14,6 @@ export class CreateDateCourseDto {
   budget: number;
 
   @ApiProperty({ description: '관심사', example: ['맛집', '카페', '전시회'] })
-  @IsArray()
   @IsString({ each: true })
   @IsNotEmpty()
   @Transform(({ value }) => value.join(', '))
