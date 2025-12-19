@@ -89,6 +89,26 @@ export class DateCoursesController {
     );
   }
 
+  @Post(':id/views')
+  @ApiOperation({
+    summary: '데이트 코스 조회수 증가',
+    description:
+      '특정 데이트 코스의 조회수를 증가시킵니다. 유저당 한 번만 카운트됩니다.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: '조회수가 성공적으로 증가되었습니다.',
+  })
+  @ApiResponse({ status: 401, description: '인증이 필요합니다.' })
+  @ApiResponse({ status: 404, description: '데이트 코스를 찾을 수 없습니다.' })
+  incrementView(
+    @Param('id', ParseIntPipe) courseId: number,
+    @Req() req: express.Request,
+  ) {
+    const userId = req.user!.id;
+    return this.dateCoursesService.incrementView(userId, courseId);
+  }
+
   @Post(':id/bookmark')
   @ApiOperation({
     summary: '데이트 코스 북마크 생성',

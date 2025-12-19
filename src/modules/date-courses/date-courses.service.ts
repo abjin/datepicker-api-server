@@ -161,8 +161,7 @@ export class DateCoursesService {
     return bookmarks.map((bookmark) => bookmark.course);
   }
 
-  async createBookmark(userId: string, courseId: number) {
-    // 코스가 존재하는지 확인
+  async incrementView(userId: string, courseId: number) {
     const course = await this.prisma.course.findUnique({
       where: { id: courseId },
     });
@@ -171,7 +170,48 @@ export class DateCoursesService {
       throw new NotFoundException('데이트 코스를 찾을 수 없습니다.');
     }
 
-    // 이미 북마크가 존재하는지 확인
+    const existingView = await this.prisma.viewLog.findUnique({
+      where: {
+        courseId_userId: {
+          courseId,
+          userId,
+        },
+      },
+    });
+
+    if (!existingView) {
+      await this.prisma.$transaction([
+        this.prisma.viewLog.create({
+          data: {
+            courseId,
+            userId,
+          },
+        }),
+        this.prisma.course.update({
+          where: { id: courseId },
+          data: {
+            viewCount: {
+              increment: 1,
+            },
+          },
+        }),
+      ]);
+
+      return { viewCount: course.viewCount + 1 };
+    }
+
+    return { message: '이미 조회한 코스입니다.', viewCount: course.viewCount };
+  }
+
+  async createBookmark(userId: string, courseId: number) {
+    const course = await this.prisma.course.findUnique({
+      where: { id: courseId },
+    });
+
+    if (!course) {
+      throw new NotFoundException('데이트 코스를 찾을 수 없습니다.');
+    }
+
     const existingBookmark = await this.prisma.bookmark.findFirst({
       where: {
         userId,
@@ -183,7 +223,6 @@ export class DateCoursesService {
       throw new ConflictException('이미 북마크한 코스입니다.');
     }
 
-    // 북마크 생성
     const bookmark = await this.prisma.bookmark.create({
       data: {
         userId,
