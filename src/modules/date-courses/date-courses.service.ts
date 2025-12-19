@@ -4,12 +4,14 @@ import { HttpService } from '@nestjs/axios';
 import { CreateDateCourseDto } from './dtos/create-date-course.dto';
 import { DateCourseResponseDto } from './dtos/date-course-response.dto';
 import { PerplexityResponse } from '../../@types/perplexity';
+import { PrismaService } from '../../../libs/prisma/src/prisma.service';
 
 @Injectable()
 export class DateCoursesService {
   constructor(
     private readonly configService: ConfigService,
     private readonly httpService: HttpService,
+    private readonly prisma: PrismaService,
   ) {}
 
   async createDateCourse(
@@ -92,5 +94,28 @@ export class DateCoursesService {
     const text = data.choices[0].message.content;
     const parsedData: DateCourseResponseDto = JSON.parse(text);
     return parsedData;
+  }
+
+  async saveDateCourse(
+    dateCourseDto: DateCourseResponseDto,
+    region?: string,
+    budget?: number,
+  ) {
+    await this.prisma.course.create({
+      data: {
+        title: dateCourseDto.title,
+        courseDescription: dateCourseDto.courseDescription,
+        region: region,
+        budget: budget,
+        places: {
+          create: dateCourseDto.course.map((place, index) => ({
+            order: index + 1,
+            place: place.place,
+            description: place.description,
+            link: place.link,
+          })),
+        },
+      },
+    });
   }
 }

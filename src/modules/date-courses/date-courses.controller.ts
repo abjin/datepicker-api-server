@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Res } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -9,6 +9,7 @@ import { DateCoursesService } from './date-courses.service';
 import { CreateDateCourseDto } from './dtos/create-date-course.dto';
 import { DateCourseResponseDto } from './dtos/date-course-response.dto';
 import { BearerGuard } from '../../common/guard';
+import type { Response } from 'express';
 
 @ApiTags('데이트 코스')
 @ApiBearerAuth()
@@ -33,7 +34,11 @@ export class DateCoursesController {
   @ApiResponse({ status: 500, description: '서버 오류가 발생했습니다.' })
   async create(
     @Body() createDateCourseDto: CreateDateCourseDto,
-  ): Promise<DateCourseResponseDto> {
-    return await this.dateCoursesService.createDateCourse(createDateCourseDto);
+    @Res() resposne: Response,
+  ) {
+    const result =
+      await this.dateCoursesService.createDateCourse(createDateCourseDto);
+    resposne.send(result);
+    await this.dateCoursesService.saveDateCourse(result);
   }
 }
