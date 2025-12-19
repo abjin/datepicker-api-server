@@ -3,6 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { CreateDateCourseDto } from './dtos/create-date-course.dto';
 import { DateCourseResponseDto } from './dtos/date-course-response.dto';
+import {
+  GetDateCoursesQueryDto,
+  SortBy,
+} from './dtos/get-date-courses-query.dto';
 import { PerplexityResponse } from '../../@types/perplexity';
 import { PrismaService } from '../../../libs/prisma/src/prisma.service';
 
@@ -117,5 +121,27 @@ export class DateCoursesService {
         },
       },
     });
+  }
+
+  async findAll(query: GetDateCoursesQueryDto) {
+    const { sortBy } = query;
+
+    const orderBy =
+      sortBy === SortBy.VIEWS
+        ? { viewCount: 'desc' as const }
+        : { createdAt: 'desc' as const };
+
+    const courses = await this.prisma.course.findMany({
+      orderBy,
+      include: {
+        places: {
+          orderBy: {
+            order: 'asc',
+          },
+        },
+      },
+    });
+
+    return courses;
   }
 }

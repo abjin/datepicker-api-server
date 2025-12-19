@@ -1,4 +1,12 @@
-import { Controller, Post, Body, UseGuards, Res } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Res,
+  Get,
+  Query,
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -8,6 +16,8 @@ import {
 import { DateCoursesService } from './date-courses.service';
 import { CreateDateCourseDto } from './dtos/create-date-course.dto';
 import { DateCourseResponseDto } from './dtos/date-course-response.dto';
+import { GetDateCoursesQueryDto } from './dtos/get-date-courses-query.dto';
+import { CourseListItemDto } from './dtos/course-list-response.dto';
 import { BearerGuard } from '../../common/guard';
 import type { Response } from 'express';
 
@@ -17,6 +27,22 @@ import type { Response } from 'express';
 @UseGuards(BearerGuard)
 export class DateCoursesController {
   constructor(private readonly dateCoursesService: DateCoursesService) {}
+
+  @Get()
+  @ApiOperation({
+    summary: '데이트 코스 목록 조회',
+    description:
+      '저장된 데이트 코스 목록을 조회합니다. 정렬 기준을 지정할 수 있습니다.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '데이트 코스 목록이 성공적으로 조회되었습니다.',
+    type: [CourseListItemDto],
+  })
+  @ApiResponse({ status: 401, description: '인증이 필요합니다.' })
+  findAll(@Query() query: GetDateCoursesQueryDto) {
+    return this.dateCoursesService.findAll(query);
+  }
 
   @Post()
   @ApiOperation({
