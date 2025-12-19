@@ -41,6 +41,45 @@ model Token {
   user      User     @relation(fields: [userId], references: [id])
 }
 
+model Course {
+  id                Int        @id @default(autoincrement())
+  createdAt         DateTime   @default(now())
+  title             String
+  courseDescription String     @db.Text
+  budget            Int?
+  region            String?
+  places            Place[]
+  bookmarks         Bookmark[]
+  views             View[]
+}
+
+model Place {
+  id          Int     @id @default(autoincrement())
+  order       Int
+  place       String
+  description String  @db.Text
+  link        String?
+  courseId    Int
+  course      Course  @relation(fields: [courseId], references: [id])
+}
+
+model Bookmark {
+  id       Int    @id @default(autoincrement())
+  userId   String
+  courseId Int
+  course   Course @relation(fields: [courseId], references: [id])
+}
+
+model View {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  courseId  Int
+  userId    String
+  course    Course   @relation(fields: [courseId], references: [id])
+
+  @@unique([courseId, userId])
+}
+
 enum AccountType {
   GOOGLE
   KAKAO
