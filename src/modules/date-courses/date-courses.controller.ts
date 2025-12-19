@@ -32,13 +32,13 @@ export class DateCoursesController {
   @ApiResponse({ status: 400, description: '잘못된 요청입니다.' })
   @ApiResponse({ status: 401, description: '인증이 필요합니다.' })
   @ApiResponse({ status: 500, description: '서버 오류가 발생했습니다.' })
-  async create(
-    @Body() createDateCourseDto: CreateDateCourseDto,
-    @Res() resposne: Response,
-  ) {
-    const result =
-      await this.dateCoursesService.createDateCourse(createDateCourseDto);
+  async create(@Body() dto: CreateDateCourseDto, @Res() resposne: Response) {
+    const result = await this.dateCoursesService.createDateCourse(dto);
     resposne.send(result);
-    await this.dateCoursesService.saveDateCourse(result);
+    await this.dateCoursesService.saveDateCourse(
+      result,
+      dto.region,
+      dto.budget,
+    );
   }
 }
