@@ -60,7 +60,7 @@ model Place {
   description String  @db.Text
   link        String?
   courseId    Int
-  course      Course  @relation(fields: [courseId], references: [id])
+  course      Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
 }
 
 model Bookmark {
