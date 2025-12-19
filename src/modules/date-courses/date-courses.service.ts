@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpService } from '@nestjs/axios';
 import { CreateDateCourseDto } from './dtos/create-date-course.dto';
@@ -143,5 +147,38 @@ export class DateCoursesService {
     });
 
     return courses;
+  }
+
+  async createBookmark(userId: string, courseId: number) {
+    // 코스가 존재하는지 확인
+    const course = await this.prisma.course.findUnique({
+      where: { id: courseId },
+    });
+
+    if (!course) {
+      throw new NotFoundException('데이트 코스를 찾을 수 없습니다.');
+    }
+
+    // 이미 북마크가 존재하는지 확인
+    const existingBookmark = await this.prisma.bookmark.findFirst({
+      where: {
+        userId,
+        courseId,
+      },
+    });
+
+    if (existingBookmark) {
+      throw new ConflictException('이미 북마크한 코스입니다.');
+    }
+
+    // 북마크 생성
+    const bookmark = await this.prisma.bookmark.create({
+      data: {
+        userId,
+        courseId,
+      },
+    });
+
+    return bookmark;
   }
 }

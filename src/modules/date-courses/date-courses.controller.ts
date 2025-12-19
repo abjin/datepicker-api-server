@@ -6,6 +6,9 @@ import {
   Res,
   Get,
   Query,
+  Param,
+  Req,
+  ParseIntPipe,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -20,6 +23,7 @@ import { GetDateCoursesQueryDto } from './dtos/get-date-courses-query.dto';
 import { CourseListItemDto } from './dtos/course-list-response.dto';
 import { BearerGuard } from '../../common/guard';
 import type { Response } from 'express';
+import express from 'express';
 
 @ApiTags('데이트 코스')
 @ApiBearerAuth()
@@ -66,5 +70,26 @@ export class DateCoursesController {
       dto.region,
       dto.budget,
     );
+  }
+
+  @Post(':id/bookmark')
+  @ApiOperation({
+    summary: '데이트 코스 북마크 생성',
+    description: '특정 데이트 코스를 북마크에 추가합니다.',
+  })
+  @ApiResponse({
+    status: 201,
+    description: '북마크가 성공적으로 생성되었습니다.',
+  })
+  @ApiResponse({ status: 400, description: '잘못된 요청입니다.' })
+  @ApiResponse({ status: 401, description: '인증이 필요합니다.' })
+  @ApiResponse({ status: 404, description: '데이트 코스를 찾을 수 없습니다.' })
+  @ApiResponse({ status: 409, description: '이미 북마크한 코스입니다.' })
+  createBookmark(
+    @Param('id', ParseIntPipe) courseId: number,
+    @Req() req: express.Request,
+  ) {
+    const userId = req.user!.id;
+    return this.dateCoursesService.createBookmark(userId, courseId);
   }
 }
