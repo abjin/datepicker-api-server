@@ -48,6 +48,23 @@ export class DateCoursesController {
     return this.dateCoursesService.findAll(query);
   }
 
+  @Get('bookmarks')
+  @ApiOperation({
+    summary: '북마크한 데이트 코스 목록 조회',
+    description:
+      '현재 로그인한 사용자가 북마크한 데이트 코스 목록을 조회합니다.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '북마크 목록이 성공적으로 조회되었습니다.',
+    type: [CourseListItemDto],
+  })
+  @ApiResponse({ status: 401, description: '인증이 필요합니다.' })
+  getBookmarks(@Req() req: express.Request) {
+    const userId = req.user!.id;
+    return this.dateCoursesService.getBookmarks(userId);
+  }
+
   @Post()
   @ApiOperation({
     summary: 'AI 기반 데이트 코스 생성',

@@ -149,6 +149,18 @@ export class DateCoursesService {
     return courses;
   }
 
+  async getBookmarks(userId: string) {
+    const bookmarks = await this.prisma.bookmark.findMany({
+      where: { userId },
+      include: {
+        course: { include: { places: { orderBy: { order: 'asc' } } } },
+      },
+      orderBy: { id: 'desc' },
+    });
+
+    return bookmarks.map((bookmark) => bookmark.course);
+  }
+
   async createBookmark(userId: string, courseId: number) {
     // 코스가 존재하는지 확인
     const course = await this.prisma.course.findUnique({
