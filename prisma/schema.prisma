@@ -48,9 +48,9 @@ model Course {
   courseDescription String     @db.Text
   budget            Int?
   region            String?
+  viewCount         Int        @default(0)
   places            Place[]
   bookmarks         Bookmark[]
-  views             View[]
 }
 
 model Place {
@@ -70,13 +70,9 @@ model Bookmark {
   course   Course @relation(fields: [courseId], references: [id])
 }
 
-model View {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+model ViewLog {
   courseId  Int
   userId    String
-  course    Course   @relation(fields: [courseId], references: [id])
-
   @@unique([courseId, userId])
 }
 
