@@ -1,5 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEnum, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsEnum, IsInt, IsOptional, Min } from 'class-validator';
 
 export enum SortBy {
   LATEST = 'latest',
@@ -15,4 +16,15 @@ export class GetDateCoursesQueryDto {
   @IsOptional()
   @IsEnum(SortBy)
   sortBy?: SortBy = SortBy.LATEST;
+
+  @ApiPropertyOptional({
+    description: '조회할 데이트 코스 개수',
+    default: 30,
+    minimum: 1,
+  })
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  limit?: number = 30;
 }

@@ -128,7 +128,7 @@ export class DateCoursesService {
   }
 
   async findAll(query: GetDateCoursesQueryDto) {
-    const { sortBy } = query;
+    const { sortBy, limit } = query;
 
     const orderBy =
       sortBy === SortBy.VIEWS
@@ -136,6 +136,7 @@ export class DateCoursesService {
         : { createdAt: 'desc' as const };
 
     const courses = await this.prisma.course.findMany({
+      take: limit,
       orderBy,
       include: {
         places: {
