@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateDateCourseDto {
@@ -18,4 +18,9 @@ export class CreateDateCourseDto {
   @IsNotEmpty()
   @Transform(({ value }) => value.join(', '))
   interests: string;
+
+  @ApiProperty({ description: '날씨', example: '맑음', required: false })
+  @IsString()
+  @IsOptional()
+  weather?: string;
 }

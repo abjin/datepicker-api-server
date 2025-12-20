@@ -25,7 +25,7 @@ export class DateCoursesService {
   async createDateCourse(
     createDateCourseDto: CreateDateCourseDto,
   ): Promise<DateCourseResponseDto> {
-    const { region, budget, interests } = createDateCourseDto;
+    const { region, budget, interests, weather } = createDateCourseDto;
 
     const prompt = `
       오늘 데이트를 할 예정이야.
@@ -33,6 +33,7 @@ export class DateCoursesService {
       - 지역: ${region}
       - 예산: ${budget} 만원
       - 관심사: ${interests}
+      ${weather ? `- 날씨: ${weather}` : ''}
       
       데이트를 위해 위의 조건에 맞는 가장 인기 많은 장소들을 찾고 있어.
       조건에 맞는 가장 인기 있는 장소들을 추천해줘.

@@ -78,6 +78,7 @@ export class DateCoursesController {
   @ApiResponse({ status: 401, description: '인증이 필요합니다.' })
   @ApiResponse({ status: 500, description: '서버 오류가 발생했습니다.' })
   async create(@Body() dto: CreateDateCourseDto): Promise<CourseListItemDto> {
+    console.log(dto);
     const result = await this.dateCoursesService.createDateCourse(dto);
     return this.dateCoursesService.saveDateCourse(
       result,
