@@ -3,7 +3,6 @@ import {
   Post,
   Body,
   UseGuards,
-  Res,
   Get,
   Query,
   Param,
@@ -18,11 +17,9 @@ import {
 } from '@nestjs/swagger';
 import { DateCoursesService } from './date-courses.service';
 import { CreateDateCourseDto } from './dtos/create-date-course.dto';
-import { DateCourseResponseDto } from './dtos/date-course-response.dto';
 import { GetDateCoursesQueryDto } from './dtos/get-date-courses-query.dto';
 import { CourseListItemDto } from './dtos/course-list-response.dto';
 import { BearerGuard } from '../../common/guard';
-import type { Response } from 'express';
 import express from 'express';
 
 @ApiTags('데이트 코스')
@@ -74,15 +71,14 @@ export class DateCoursesController {
   @ApiResponse({
     status: 201,
     description: '데이트 코스가 성공적으로 생성되었습니다.',
-    type: DateCourseResponseDto,
+    type: CourseListItemDto,
   })
   @ApiResponse({ status: 400, description: '잘못된 요청입니다.' })
   @ApiResponse({ status: 401, description: '인증이 필요합니다.' })
   @ApiResponse({ status: 500, description: '서버 오류가 발생했습니다.' })
-  async create(@Body() dto: CreateDateCourseDto, @Res() resposne: Response) {
+  async create(@Body() dto: CreateDateCourseDto): Promise<CourseListItemDto> {
     const result = await this.dateCoursesService.createDateCourse(dto);
-    resposne.send(result);
-    await this.dateCoursesService.saveDateCourse(
+    return this.dateCoursesService.saveDateCourse(
       result,
       dto.region,
       dto.budget,

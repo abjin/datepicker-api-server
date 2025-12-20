@@ -109,7 +109,7 @@ export class DateCoursesService {
     region?: string,
     budget?: number,
   ) {
-    await this.prisma.course.create({
+    return this.prisma.course.create({
       data: {
         title: dateCourseDto.title,
         courseDescription: dateCourseDto.courseDescription,
@@ -124,6 +124,7 @@ export class DateCoursesService {
           })),
         },
       },
+      include: { places: true },
     });
   }
 
