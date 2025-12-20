@@ -234,4 +234,23 @@ export class DateCoursesService {
 
     return bookmark;
   }
+
+  async getSharedCourse(courseId: number) {
+    const course = await this.prisma.course.findUnique({
+      where: { id: courseId },
+      include: {
+        places: {
+          orderBy: {
+            order: 'asc',
+          },
+        },
+      },
+    });
+
+    if (!course) {
+      throw new NotFoundException('데이트 코스를 찾을 수 없습니다.');
+    }
+
+    return course;
+  }
 }

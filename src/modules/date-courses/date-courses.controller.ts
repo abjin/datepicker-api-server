@@ -20,6 +20,7 @@ import { CreateDateCourseDto } from './dtos/create-date-course.dto';
 import { GetDateCoursesQueryDto } from './dtos/get-date-courses-query.dto';
 import { CourseListItemDto } from './dtos/course-list-response.dto';
 import { BearerGuard } from '../../common/guard';
+import { Public } from '../../common/public.decorator';
 import express from 'express';
 
 @ApiTags('데이트 코스')
@@ -124,5 +125,24 @@ export class DateCoursesController {
   ) {
     const userId = req.user!.id;
     return this.dateCoursesService.createBookmark(userId, courseId);
+  }
+
+  @Get(':id/share')
+  @Public()
+  @ApiOperation({
+    summary: '데이트 코스 공유하기',
+    description:
+      '공유 링크를 통해 데이트 코스를 조회합니다. 인증이 필요하지 않습니다.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: '데이트 코스가 성공적으로 조회되었습니다.',
+    type: CourseListItemDto,
+  })
+  @ApiResponse({ status: 404, description: '데이트 코스를 찾을 수 없습니다.' })
+  async getSharedCourse(
+    @Param('id', ParseIntPipe) courseId: number,
+  ): Promise<CourseListItemDto> {
+    return this.dateCoursesService.getSharedCourse(courseId);
   }
 }
